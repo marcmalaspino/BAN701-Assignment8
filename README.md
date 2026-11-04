@@ -20,16 +20,16 @@ AI use in this initial stage: I wrote the program myself, but used Claude to rev
 
 ### Steps
 1. Clone the repository:
-'''
+```
 
 git clone https://github.com/marcmalaspino/BAN701-Assignment8
-'''
+```
 
 2. Run the program:
-'''
+```
 
 python main.py
-'''
+```
 
 3. Follow the prompts in the terminal
 
