@@ -1,5 +1,5 @@
 # BAN701-Assignment8
-Assignment 8 for BAN 710
+Assignment 8 for BAN 701
 
 ## Description
 A simple Python program that generates random fantasy monsters. The user chooses a name and difficulty, and the program creates a monster with random HP, Attack, and Defense stats scaled by the chosen difficulty.
