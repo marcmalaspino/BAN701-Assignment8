@@ -17,7 +17,10 @@ stats = ["hp", "attack", "defense"]
 #based on difficulty. "Easy" monster stats range from 1-10, "Hard" from 3-30.
 def generate_monster(name, difficulty):
     multiplier = difficulty_level[difficulty]
-    monster = {"name": name}
+
+    #Stage 2: Difficulty is now stored inside the monster so the
+    #end of session summary can display it later.
+    monster = {"name": name, "difficulty": difficulty}
 
     for stat in stats:
         monster[stat] = random.randint(1,10) * multiplier
@@ -25,6 +28,11 @@ def generate_monster(name, difficulty):
     return monster
 
 def main():
+
+    #Stage 2: Moved Welcome Message to within main()
+    print("Welcome to the Monster Generator")
+    print("Create and store monsters!")
+    print("**************************\n")
 
     #Repeats until the user answers "n". Any answer other than y/n
     #re-prompts instead of creating a monster by accident.
@@ -38,15 +46,28 @@ def main():
             print("Please enter y or n.\n")
             continue
 
-        name = input("Enter a name: ")
-        difficulty = input("Enter a difficulty (easy, intermediate, hard): ").lower()
+        name = input("Enter a name: ").strip()
+
+        #Stage 2: Checks for blank name entry and re-prompts until user types something.
+        if name == "":
+            print("Name can't be blank.\n")
+            continue
+
+        difficulty = input("Enter a difficulty (easy, intermediate, hard): ").strip().lower()
+
+        #Stage 2: Invalid difficulty entry used to crash the program.
+        #This if statement now checks the dictionary first - if invalid,
+        #it displays a message and restarts the loop
+        if difficulty not in difficulty_level:
+            print("Invalid entry. Please choose easy, intermediate, or hard\n")
+            continue
 
         monster = generate_monster(name, difficulty)
         saved_monsters.append(monster)
 
         print("\nHere is your monster!:\n")
-        print("Name: ", monster["name"])
-        print("Difficulty: ", difficulty.capitalize())
+        print("Name:", monster["name"])
+        print("Difficulty:", difficulty.capitalize())
         print("Stats:" )
 
         for stat in stats:
@@ -54,15 +75,20 @@ def main():
 
 
     print(f"\nYou created {len(saved_monsters)} monster(s).")
-    print("See you next time!")
+
+    #Stage 2: Lists every monster created in the session, including stats an total power.
+    #Skipped when the list is empty so the user doesn't see an empty heading.
+    if saved_monsters:
+        print("\nYour monsters:")
+        for m in saved_monsters:
+            total = sum(m[stat] for stat in stats)
+            print(f"- {m['name']} ({m['difficulty'].capitalize()}): "
+                  f"HP {m['hp']}, ATK {m['attack']}, DEF {m['defense']} | Total Power: {total}")
+
+    print("\nSee you next time!")
 
 #Main guard so main() only runs when the file is executed directly.
 if __name__ == "__main__":
-
-    print("Welcome to the Monster Generator")
-    print("Create and store monsters!")
-    print("*****************************************\n")
-
     main()
 
 
