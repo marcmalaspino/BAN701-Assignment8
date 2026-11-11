@@ -27,6 +27,15 @@ def generate_monster(name, difficulty):
 
     return monster
 
+#Loop to check for duplicate monsters given user input.
+#Returns True/False depending if monster already exists.
+def is_duplicate(name, difficulty):
+    for m in saved_monsters:
+        if name.lower() == m["name"].lower() and difficulty.lower() == m["difficulty"].lower():
+            return True
+    return False
+
+
 def main():
 
     #Stage 2: Moved Welcome Message to within main()
@@ -60,6 +69,12 @@ def main():
         #it displays a message and restarts the loop
         if difficulty not in difficulty_level:
             print("Invalid entry. Please choose easy, intermediate, or hard\n")
+            continue
+
+        #Runs the duplicate check and either prints an error message
+        #or continues program depending on returned value
+        if is_duplicate(name, difficulty):
+            print (f"{name} ({difficulty}) already exists.")
             continue
 
         monster = generate_monster(name, difficulty)
