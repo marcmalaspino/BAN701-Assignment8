@@ -12,6 +12,19 @@ saved_monsters = []
 #List to store the monster's stats.
 stats = ["hp", "attack", "defense"]
 
+#List of weapons a monster can be given.
+weapons = ["sword", "bow", "axe", "staff", "dagger"]
+
+#Dictionary to store each move's attack bonus and defense bonus.
+#Bonuses are listed separately and do not change the base stats.
+moves = {
+    "Power Strike": {"attack": 3, "defense": 0},
+    "Shield Bash": {"attack": 1, "defense": 2},
+    "Guard Up": {"attack": 0, "defense": 3},
+    "Quick Slash": {"attack": 2, "defense": 1},
+    "Rally Cry": {"attack": 2, "defense": 2}
+}
+
 #Generates monsters with the user's given name and difficulty.
 #Stats are generated randomly from 1-10, and scaled by the multiplier
 #based on difficulty. "Easy" monster stats range from 1-10, "Hard" from 3-30.
@@ -24,6 +37,10 @@ def generate_monster(name, difficulty):
 
     for stat in stats:
         monster[stat] = random.randint(1,10) * multiplier
+
+    #Gives the monster one random weapon and two different random moves.
+    monster["weapon"] = random.choice(weapons)
+    monster["moves"] = random.sample(list(moves), 2)
 
     return monster
 
@@ -73,6 +90,12 @@ def main():
         for stat in stats:
             print(f" {stat.upper()}: {monster[stat]}")
 
+        #Shows the monster's weapon and each move with its bonuses.
+        print("Weapon:", monster["weapon"].capitalize())
+        print("Moves:")
+        for move in monster["moves"]:
+            print(f" {move}: +{moves[move]['attack']} ATK, +{moves[move]['defense']} DEF")
+
 
     print(f"\nYou created {len(saved_monsters)} monster(s).")
 
@@ -85,10 +108,13 @@ def main():
             print(f"- {m['name']} ({m['difficulty'].capitalize()}): "
                   f"HP {m['hp']}, ATK {m['attack']}, DEF {m['defense']} | Total Power: {total}")
 
+            #Weapon and moves are listed under each monster, separate from Total Power.
+            print(f"    Weapon: {m['weapon'].capitalize()}")
+            for move in m["moves"]:
+                print(f"    Move: {move} (+{moves[move]['attack']} ATK, +{moves[move]['defense']} DEF)")
+
     print("\nSee you next time!")
 
 #Main guard so main() only runs when the file is executed directly.
 if __name__ == "__main__":
     main()
-
-
